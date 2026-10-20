@@ -2,8 +2,8 @@
 namespace InvoiceTool;
 
 /**
- * Parses a Time Doctor "Projects & Tasks" daily CSV and combines all rows of the
- * same Jira ticket into one invoice item (summed time, last worked date).
+ * Parses a Time Doctor "Projects & Tasks" daily CSV and combines the rows of the
+ * same Jira ticket on the same day into one invoice item (summed time).
  */
 class TimeDoctorCsv
 {
@@ -46,8 +46,9 @@ class TimeDoctorCsv
             }
             [$key, $title] = self::splitTask(trim($row[$col['Task']]));
 
-            // Group by Jira key; tasks without a key are grouped by their full name
-            $group = $key !== '' ? $key : 'task:' . $title;
+            // One item per ticket per day (the PDF lists work day by day);
+            // tasks without a Jira key are grouped by their full name
+            $group = $date . '|' . ($key !== '' ? $key : 'task:' . $title);
             if (!isset($items[$group])) {
                 $items[$group] = [
                     'ticket_key'   => $key,
@@ -58,10 +59,6 @@ class TimeDoctorCsv
                 ];
             }
             $items[$group]['seconds'] += $seconds;
-            if ($date >= $items[$group]['work_date']) {
-                $items[$group]['work_date'] = $date;
-                $items[$group]['title']     = $title; // latest wording wins
-            }
             $dates[] = $date;
         }
         fclose($fh);

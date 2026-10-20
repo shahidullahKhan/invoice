@@ -34,7 +34,7 @@ use InvoiceTool\Format;
                 <h2 class="h5 mb-1">2. Review</h2>
                 <div class="text-muted small">
                     <?= e(Format::period($draft['period_start'], $draft['period_end'])) ?> ·
-                    <?= count($draft['items']) ?> tickets · <?= Format::hhmm((int) $draft['total_seconds']) ?> hrs ·
+                    <?= count($draft['items']) ?> entries · <?= Format::hhmm((int) $draft['total_seconds']) ?> hrs ·
                     $<?= Format::money(Format::amount((int) $draft['total_seconds'], (float) $user['rate'])) ?> at <?= secret('$' . $user['rate'] . '/hr') ?>
                 </div>
             </div>

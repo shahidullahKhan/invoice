@@ -48,9 +48,20 @@ class Documents
             $sheet->getColumnDimension($col)->setWidth($width);
         }
 
+        // Items are per ticket per day; the sheet shows one row per ticket
+        $tickets = [];
+        foreach ($invoice['items'] as $item) {
+            $group = $item['ticket_key'] !== '' ? $item['ticket_key'] : 'task:' . $item['title'];
+            if (isset($tickets[$group])) {
+                $tickets[$group]['seconds'] += (int) $item['seconds'];
+            } else {
+                $tickets[$group] = $item;
+            }
+        }
+
         $rate = (float) $invoice['rate'];
         $row  = 2;
-        foreach ($invoice['items'] as $item) {
+        foreach ($tickets as $item) {
             $url = $item['ticket_key'] !== '' ? $this->jiraBase . '/browse/' . $item['ticket_key'] : '';
             $sheet->setCellValueExplicit("A$row", $invoice['invoice_no'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->setCellValue("B$row", $item['project_name']);

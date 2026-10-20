@@ -92,7 +92,7 @@ $first = strtok(trim($user['full_name']), ' ') ?: 'there';
             <h2 class="h6 mb-3">Draft in progress</h2>
             <?php if ($draft): ?>
                 <div class="fw-semibold"><?= e(Format::period($draft['period_start'], $draft['period_end'])) ?></div>
-                <div class="text-muted small mb-2"><?= count($draft['items']) ?> tickets · <?= Format::hhmm((int) $draft['total_seconds']) ?> hrs</div>
+                <div class="text-muted small mb-2"><?= count($draft['items']) ?> entries · <?= Format::hhmm((int) $draft['total_seconds']) ?> hrs</div>
                 <?php if ($missing): ?>
                     <div class="small text-warning-emphasis mb-3">⚠ <?= $missing ?> ticket<?= $missing === 1 ? '' : 's' ?> missing bill code</div>
                 <?php else: ?>
