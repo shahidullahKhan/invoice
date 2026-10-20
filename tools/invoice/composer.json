@@ -1,0 +1,17 @@
+{
+    "name": "har/invoice-tool",
+    "description": "Generates PDF + Excel invoices from Time Doctor CSV exports",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "dompdf/dompdf": "^3.1",
+        "phpoffice/phpspreadsheet": "^1.29"
+    },
+    "autoload": {
+        "psr-4": { "InvoiceTool\\": "src/" }
+    },
+    "config": {
+        "platform": { "php": "7.4.0" },
+        "optimize-autoloader": true
+    }
+}

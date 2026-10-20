@@ -1,0 +1,14 @@
+# Run with `docker compose up -d` from tools/invoice, then open http://localhost:8080/tools/invoice/
+services:
+  invoice:
+    build: .
+    image: har-invoice
+    container_name: har-invoice
+    ports:
+      - "8080:8080"
+    volumes:
+      # Same layout as the server: public entry in webroot/, app code outside it.
+      # storage/ (SQLite DB + encryption key) lives in the mounted folder, so data survives rebuilds.
+      - ./:/app/tools/invoice
+      - ../../webroot/tools/invoice:/app/webroot/tools/invoice
+    restart: unless-stopped
